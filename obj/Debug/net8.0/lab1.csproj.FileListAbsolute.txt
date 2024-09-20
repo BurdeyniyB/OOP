@@ -1,0 +1,15 @@
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/lab1.GeneratedMSBuildEditorConfig.editorconfig
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/lab1.AssemblyInfoInputs.cache
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/lab1.AssemblyInfo.cs
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/lab1.csproj.CoreCompileInputs.cache
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/lab1.sourcelink.json
+/home/boris/VScode/OOP/lab1/bin/Debug/net8.0/lab1
+/home/boris/VScode/OOP/lab1/bin/Debug/net8.0/lab1.deps.json
+/home/boris/VScode/OOP/lab1/bin/Debug/net8.0/lab1.runtimeconfig.json
+/home/boris/VScode/OOP/lab1/bin/Debug/net8.0/lab1.dll
+/home/boris/VScode/OOP/lab1/bin/Debug/net8.0/lab1.pdb
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/lab1.dll
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/refint/lab1.dll
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/lab1.pdb
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/lab1.genruntimeconfig.cache
+/home/boris/VScode/OOP/lab1/obj/Debug/net8.0/ref/lab1.dll
