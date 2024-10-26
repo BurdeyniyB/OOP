@@ -1,18 +1,23 @@
-namespace MyApp{
-    class Game
+namespace MyApp
+{
+    public class GameInfo
     {
-        private int idCounter = 0;
         public int GameId { get; private set; }
-        public string OpponentName { get; private set; }
-        public bool IsWin { get; private set; }
+        public string Player1 { get; private set; }
+        public string Player2 { get; private set; }
         public decimal Rating { get; private set; }
 
-        public Game(string opponentName, bool isWin, decimal rating)
+        public GameInfo(int gameId, string player1, string player2, decimal rating)
         {
-            this.GameId = ++idCounter;
-            this.OpponentName = opponentName;
-            this.IsWin = isWin;
-            this.Rating = rating;
+            GameId = gameId;
+            Player1 = player1;
+            Player2 = player2;
+            Rating = rating;
+        }
+
+        public string GetResult()
+        {
+            return $"GameInfo ID: {GameId}, Winner: {Player1}, loser: {Player2}, Rating: {Rating}";
         }
     }
 }

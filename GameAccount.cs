@@ -1,52 +1,92 @@
 using System;
-using System.Collections.Generic;
 
-namespace MyApp{
-    class GameAccount
+namespace MyApp
+{
+    abstract class GameAccount
     {
         public string UserName { get; private set; }
-        public decimal CurrentRating { get; private set; }
-        public int GamesCount { get; private set; }
-        private List<Game> gameHistory;
+        public string AccountType { get; protected set; }
+        private decimal currentRating = 25.0M;
+        private int GamesCount { get; set; } = 0;
 
-        public GameAccount(string userName)
+        public decimal CurrentRating
         {
-            this.UserName = userName;
-            this.CurrentRating = 1.0M;
-            this.GamesCount = 0;
-            this.gameHistory = new List<Game>();
+            get => currentRating;
+            protected set
+            {
+                currentRating = value < 1.0M ? 1.0M : value;
+            }
         }
 
-        public void WinGame(string opponentName, decimal rating)
+        public GameAccount(string userName, string accountType)
         {
-            if (rating < 0)
-                throw new ArgumentException("Рейтинг не може бути від'ємним");
-
-            this.CurrentRating += rating;
-            this.GamesCount++;
-            this.gameHistory.Add(new Game(opponentName, true, rating));
-            Console.WriteLine($"Перемога! Опонент: {opponentName}, Рейтинг гри: {rating}");
+            UserName = userName;
+            AccountType = accountType;
         }
 
-        public void LoseGame(string opponentName, decimal rating)
+        protected abstract decimal CalculatePoints(decimal rating, bool isWin);
+
+        public void PlayGame(int id, string opponentName, decimal rating, bool isWin)
         {
             if (rating < 0)
-                throw new ArgumentException("Рейтинг не може бути від'ємним");
+                throw new ArgumentException("Rating cannot be negative");
 
-            this.CurrentRating = Math.Max(1.0M, this.CurrentRating - rating); // Рейтинг не може бути менше 1
-            this.GamesCount++;
-            this.gameHistory.Add(new Game(opponentName, false, rating));
-            Console.WriteLine($"Поразка! Опонент: {opponentName}, Рейтинг гри: {rating}");
+            decimal points = CalculatePoints(rating, isWin);
+            CurrentRating += points;
+            GamesCount++;
+            string result = isWin ? "Win" : "Loss";
+            Console.WriteLine($"{result}: {UserName} ({AccountType})! Opponent: {opponentName}, Game Rating: {rating}, Points: {points}");
         }
 
         public void GetStats()
         {
-            Console.WriteLine($"Статистика для {UserName}:");
-            Console.WriteLine("Індекс | Опонент | Результат | Рейтинг гри");
-            foreach (var game in gameHistory)
+            Console.WriteLine($"Statistics for {UserName} ({AccountType}):");
+            Console.WriteLine($"Rating: {CurrentRating}, Number of Games: {GamesCount}");
+        }
+
+        public void ShowPlayerInfo()
+        {
+            Console.WriteLine($"Player Name: {UserName}, Account Type: {AccountType}, Rating: {CurrentRating}, Number of Games: {GamesCount}");
+        }
+    }
+
+    class StandardAccount : GameAccount
+    {
+        public StandardAccount(string userName) : base(userName, "Standard") { }
+
+        protected override decimal CalculatePoints(decimal rating, bool isWin)
+        {
+            return isWin ? rating : -rating;
+        }
+    }
+
+    class ReducedLossAccount : GameAccount
+    {
+        public ReducedLossAccount(string userName) : base(userName, "Reduced Loss") { }
+
+        protected override decimal CalculatePoints(decimal rating, bool isWin)
+        {
+            return isWin ? rating : -rating / 2;
+        }
+    }
+
+    class StreakBonusAccount : GameAccount
+    {
+        private int winStreak = 0;
+
+        public StreakBonusAccount(string userName) : base(userName, "Streak Bonus") { }
+
+        protected override decimal CalculatePoints(decimal rating, bool isWin)
+        {
+            if (isWin)
             {
-                string result = game.IsWin ? "Перемога" : "Поразка";
-                Console.WriteLine($"{game.GameId} | {game.OpponentName} | {result} | {game.Rating}");
+                winStreak++;
+                return rating + (winStreak >= 3 ? 5.0M : 0);
+            }
+            else
+            {
+                winStreak = 0;
+                return -rating;
             }
         }
     }
